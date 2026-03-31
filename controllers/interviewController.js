@@ -62,6 +62,7 @@ let updateInterview = async (req, res, next) => {
 
 
 module.exports = {
+    getByInterviewId,
     getAllInterviews,
     createInterview,
     updateInterview

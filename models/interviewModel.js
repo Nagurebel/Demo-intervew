@@ -1,4 +1,4 @@
-let mongoose = require("./../config/db");
+let mongoose = require("mongoose");
 
 
 let interviewSchema = new mongoose.Schema({
