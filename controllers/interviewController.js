@@ -3,7 +3,8 @@ let interViewModel = require("../models/interviewModel")
 
 let getAllInterviews = async (req, res, next) => {
     try {
-        let response = await interViewModel.find();
+        let { status, priority } = req.query;
+        let response = await interViewModel.find({ status, priority }).lean();
         res.status(200).json({
             error: false,
             message: "Interviews fetched successfully",
@@ -60,10 +61,30 @@ let updateInterview = async (req, res, next) => {
     }
 }
 
+const deleteInterview = async (req, res, next) => {
+    try {
+        let interviewer = await interViewModel.findById(req.params.id);
+        if (!interviewer) {
+            return res.status(404).json({
+                error: true,
+                message: "Interview not found"
+            })
+        }
+        await interViewModel.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            error: false,
+            message: "Interview deleted successfully"
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 module.exports = {
     getByInterviewId,
     getAllInterviews,
     createInterview,
-    updateInterview
+    updateInterview,
+    deleteInterview
 }
